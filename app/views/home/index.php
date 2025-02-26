@@ -7,9 +7,9 @@ if (!isset($_SESSION['user'])) {
 
 echo "Bienvenue, " . $_SESSION['user']['nom'];
 
-if ($_SESSION['user']['role'] == 'admin') {
-    echo '<a href="../admin/index.php">Administration</a>';
+if ($_SESSION['user']['role'] === 'admin') {
+    echo '<a href="../../views/home/index.php">Administration</a>';
 }
 ?>
 
-<a href="../auth/logout.php">Déconnexion</a>
+<a href="../../views/auth/logout.php">Déconnexion</a>

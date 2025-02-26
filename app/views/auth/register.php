@@ -6,8 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = htmlspecialchars($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $avatar = htmlspecialchars($_POST['avatar']);
-    /** @var PDO $pdo */
-    $sql = "INSERT INTO client (nom, email, password, avatar, role) VALUES (?, ?, ?, ?, 'user')";
+
+    
+    $sql = "INSERT INTO utilisateurs (nom, email, password, avatar, role) VALUES (?, ?, ?, ?, 'user')";
     $stmt = $pdo->prepare($sql);
 
     if ($stmt->execute([$nom, $email, $password, $avatar])) {
