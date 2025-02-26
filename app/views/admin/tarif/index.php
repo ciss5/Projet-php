@@ -1,36 +1,28 @@
 <?php
-session_start();
 require '../../../../config/config.php';
-
-// Vérification de l'utilisateur connecté
-if (!isset($_SESSION['user'])) {
-    header("Location: ../../auth/login.php");
-    exit();
-}
-
-// Récupération de la catégorie de l'utilisateur connecté
-$userCategory = $_SESSION['user']['num_categ'];
-
-$sql = "SELECT prestation.lib_prest, tarif.prix 
-        FROM tarif 
-        JOIN prestation ON tarif.num_prest = prestation.num_prest 
-        WHERE tarif.num_categ = ?";
+require '../../../managers/TarifManager.php';
 /** @var PDO $pdo */
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$userCategory]);
-$tarifs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$tarifManager = new TarifManager($pdo);
+$tarifs = $tarifManager->getAll();
 ?>
 
-<h2>Tarifs des prestations</h2>
+<a href="create.php">Ajouter un tarif</a>
 <table border="1">
     <tr>
-        <th>Prestation</th>
+        <th>ID Prestation</th>
+        <th>ID Catégorie</th>
         <th>Prix</th>
+        <th>Actions</th>
     </tr>
     <?php foreach ($tarifs as $tarif): ?>
         <tr>
-            <td><?= htmlspecialchars($tarif['lib_prest']) ?></td>
+            <td><?= htmlspecialchars($tarif['num_prest']) ?></td>
+            <td><?= htmlspecialchars($tarif['num_categ']) ?></td>
             <td><?= htmlspecialchars($tarif['prix']) ?> €</td>
+            <td>
+                <a href="edit.php?num_prest=<?= htmlspecialchars($tarif['num_prest']) ?>&num_categ=<?= htmlspecialchars($tarif['num_categ']) ?>">Modifier</a>
+                <a href="delete.php?num_prest=<?= htmlspecialchars($tarif['num_prest']) ?>&num_categ=<?= htmlspecialchars($tarif['num_categ']) ?>" onclick="return confirm('Supprimer ce tarif ?');">Supprimer</a>
+            </td>
         </tr>
     <?php endforeach; ?>
 </table>
