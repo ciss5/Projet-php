@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $avatar = htmlspecialchars($_POST['avatar']);
 
-    
+    /** @var PDO $pdo */
     $sql = "INSERT INTO utilisateurs (nom, email, password, avatar, role) VALUES (?, ?, ?, ?, 'user')";
     $stmt = $pdo->prepare($sql);
 

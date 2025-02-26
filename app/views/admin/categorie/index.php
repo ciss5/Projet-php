@@ -1,6 +1,6 @@
 <?php
 require '../../../../config/config.php';
-
+/** @var PDO $pdo */
 $sql = "SELECT * FROM categorie";
 $stmt = $pdo->query($sql);
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ if (!$categories) {
                 <td><?= isset($categorie['num_categ']) ? htmlspecialchars($categorie['num_categ']) : 'N/A' ?></td>
                 <td><?= isset($categorie['lib_categ']) ? htmlspecialchars($categorie['lib_categ']) : 'N/A' ?></td>
                 <td>
-                    <a href="edit.php?id=<?= htmlspecialchars($categorie['num_categ']) ?>">Modifier</a>
+                    <a href="delete.php?id=<?= htmlspecialchars($categorie['num_categ']) ?>">Modifier</a>
                     <a href="delete.php?id=<?= htmlspecialchars($categorie['num_categ']) ?>" onclick="return confirm('Supprimer cette catégorie ?');">Supprimer</a>
                 </td>
             </tr>
